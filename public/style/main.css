@@ -3693,7 +3693,9 @@ input[type="button"]:disabled,
 }
 
 /* Touch */
-
+body{
+  background-image: url("public/images/panpan.jpg");
+}
 body.is-touch .image.thumb:before {
   opacity: 0.5 !important;
 }
