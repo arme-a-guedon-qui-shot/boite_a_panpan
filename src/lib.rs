@@ -3,9 +3,7 @@ use leptos::*;
 
 use leptos_meta::provide_meta_context;
 use logging::log;
-use prelude::{
-    signal, ClassAttribute, CollectView, Get, GlobalAttributes, OnAttribute, StyleAttribute,
-};
+use prelude::{signal, ClassAttribute, CollectView, Get, OnAttribute};
 
 #[component]
 pub fn Quotes() -> impl IntoView {
@@ -133,8 +131,7 @@ pub fn Quotes() -> impl IntoView {
                 get_quotes
                     .get()
                     .into_iter()
-                    .enumerate()
-                    .map(|(i, q)| {
+                    .map(|q| {
 
                         view! {
                             <button  on:click=move |_| {
@@ -145,9 +142,9 @@ pub fn Quotes() -> impl IntoView {
                                     .expect("audio introuvable");
                                 let _ = audio.play().expect("impossible de jouer l'audio");
                             }>
-                                <div>
-                                    <a id=i.to_string() href="#">{q.0}</a>
-                                </div>
+
+                                    <a href="#">{q.0}</a>
+
 
                             </button>
                         }
