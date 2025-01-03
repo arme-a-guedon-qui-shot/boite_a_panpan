@@ -8,7 +8,7 @@ use prelude::{
 };
 
 #[component]
-pub fn QuoteBoard() -> impl IntoView {
+pub fn Quotes() -> impl IntoView {
     let (get_quotes, _set_quotes) = signal(vec![
         (
             "Je m'appelle Lopez, Joe".to_string(),
@@ -163,7 +163,7 @@ pub fn BoiteAPanpan() -> impl IntoView {
     provide_meta_context();
     view! {
         <main>
-            <QuoteBoard />
+            <Quotes />
         </main>
     }
 }
