@@ -1,0 +1,11 @@
+[package]
+name = "boite_a_panpan"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+leptos = { version = "0.7.2", features = ["csr"] }
+leptos_meta = { version = "0.7.2", features = ["ssr"] }
+
+[serve]
+port = 3000
