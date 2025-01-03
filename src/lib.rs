@@ -140,7 +140,7 @@ let (get_quotes, _set_quotes) = signal(vec![
                             <li on:click=move |_| {
                                 log!("{}",q.1.as_str());
                                 let audio = web_sys::HtmlAudioElement::new_with_src(
-                                        format!("/audio/{}", q.1.as_str()).as_str(),
+                                        format!("public/audio/{}", q.1.as_str()).as_str(),
                                     )
                                     .expect("audio introuvable");
                                 let _ = audio.play().expect("impossible de jouer l'audio");
