@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write 
+  contents: write
   pages: write
   id-token: write
 
@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   Github-Pages-Release:
+
     timeout-minutes: 10
 
     environment:
@@ -25,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4 
+      - uses: actions/checkout@v4
       - name: Install nightly Rust
         uses: dtolnay/rust-toolchain@nightly
         with:
@@ -36,12 +37,10 @@ jobs:
 
       - name: lint
         run: cargo clippy & cargo fmt
-
       - name: Download and install Trunk binary
         run: wget -qO- https://github.com/trunk-rs/trunk/releases/download/v0.18.4/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
 
       - name: Build with Trunk
-        
         run: ./trunk build --release --public-url "${GITHUB_REPOSITORY#*/}"
 
       - name: Setup Pages
@@ -52,7 +51,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: "./dist"
+          path: './dist'
 
       - name: Deploy to GitHub Pages 🚀
         id: deployment
