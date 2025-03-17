@@ -123,7 +123,10 @@ pub fn Quotes() -> impl IntoView {
         (
             "Je fais 75 kilos je fais".to_string(),
             "32-75kilos.mp3".to_string(),
-        ),
+        ),(
+            "bonus".to_string(),
+            "ol.mp3".to_string(),
+        )
     ]);
     view! {
         <div class="quoteboard">
@@ -134,7 +137,7 @@ pub fn Quotes() -> impl IntoView {
                     .map(|q| {
 
                         view! {
-                            <button  on:click=move |_| {
+                            <button on:click=move |_| {
                                 log!("{}",q.1.as_str());
                                 let audio = web_sys::HtmlAudioElement::new_with_src(
                                         format!("public/audio/{}", q.1.as_str()).as_str(),
@@ -143,8 +146,7 @@ pub fn Quotes() -> impl IntoView {
                                 let _ = audio.play().expect("impossible de jouer l'audio");
                             }>
 
-                                    <a href="#">{q.0}</a>
-
+                                <a href="#">{q.0}</a>
 
                             </button>
                         }
