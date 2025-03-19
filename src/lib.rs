@@ -4,10 +4,11 @@ use leptos::*;
 use leptos_meta::provide_meta_context;
 use logging::log;
 use prelude::{signal, ClassAttribute, CollectView, Get, OnAttribute};
+use rand::seq::SliceRandom;
 
 #[component]
 pub fn Quotes() -> impl IntoView {
-    let (get_quotes, _set_quotes) = signal(vec![
+    let mut v = vec![
         (
             "Je m'appelle Lopez, Joe".to_string(),
             "01-jmappelle.mp3".to_string(),
@@ -123,11 +124,11 @@ pub fn Quotes() -> impl IntoView {
         (
             "Je fais 75 kilos je fais".to_string(),
             "32-75kilos.mp3".to_string(),
-        ),(
-            "bonus".to_string(),
-            "ol.mp3".to_string(),
-        )
-    ]);
+        ),
+        ("bonus".to_string(), "ol.mp3".to_string()),
+    ];
+    v.shuffle(&mut rand::rng());
+    let (get_quotes, _set_quotes) = signal(v);
     view! {
         <div class="quoteboard">
             {move || {
