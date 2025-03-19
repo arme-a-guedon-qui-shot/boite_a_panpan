@@ -1,4 +1,4 @@
-use leptos::prelude::ElementChild;
+use leptos::prelude::{Effect, ElementChild, Update};
 use leptos::*;
 
 use leptos_meta::provide_meta_context;
@@ -8,7 +8,7 @@ use rand::seq::SliceRandom;
 
 #[component]
 pub fn Quotes() -> impl IntoView {
-    let mut v = vec![
+    let (get_quotes, set_quotes) = signal(vec![
         (
             "Je m'appelle Lopez, Joe".to_string(),
             "01-jmappelle.mp3".to_string(),
@@ -126,9 +126,13 @@ pub fn Quotes() -> impl IntoView {
             "32-75kilos.mp3".to_string(),
         ),
         ("bonus".to_string(), "ol.mp3".to_string()),
-    ];
-    v.shuffle(&mut rand::rng());
-    let (get_quotes, _set_quotes) = signal(v);
+    ]);
+    (move || {
+        let mut vec_clone = get_quotes.get().clone();
+        vec_clone.shuffle(&mut rand::rng());
+        set_quotes.update(|old| *old = vec_clone);
+    })();
+
     view! {
         <div class="quoteboard">
             {move || {
