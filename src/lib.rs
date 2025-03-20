@@ -1,14 +1,26 @@
-use leptos::prelude::{Effect, ElementChild, Update};
+use getrandom::getrandom;
+use leptos::prelude::ElementChild;
+use leptos::prelude::Update;
 use leptos::*;
 
 use leptos_meta::provide_meta_context;
 use logging::log;
 use prelude::{signal, ClassAttribute, CollectView, Get, OnAttribute};
-use rand::seq::SliceRandom;
-
+fn random_u32(a: u32, b: u32) -> u32 {
+    let mut buf = [0u8; 4];
+    getrandom(&mut buf).unwrap();
+    let random_u32 = u32::from_be_bytes(buf);
+    (random_u32 % (b - a + 1)) + a
+}
+fn shuffle_vec<T>(v: &mut Vec<T>) {
+    for i in 0..v.len() {
+        let j = random_u32(0_u32, i as u32);
+        v.swap(j as usize, i);
+    }
+}
 #[component]
 pub fn Quotes() -> impl IntoView {
-    let (get_quotes, set_quotes) = signal(vec![
+    let mut v = vec![
         (
             "Je m'appelle Lopez, Joe".to_string(),
             "01-jmappelle.mp3".to_string(),
@@ -126,39 +138,36 @@ pub fn Quotes() -> impl IntoView {
             "32-75kilos.mp3".to_string(),
         ),
         ("bonus".to_string(), "ol.mp3".to_string()),
-    ]);
-    (move || {
-        let mut vec_clone = get_quotes.get().clone();
-        vec_clone.shuffle(&mut rand::rng());
-        set_quotes.update(|old| *old = vec_clone);
-    })();
+    ];
+    shuffle_vec(&mut v);
+    let (get_quotes, set_quotes) = signal(v);
 
     view! {
-        <div class="quoteboard">
-            {move || {
-                get_quotes
-                    .get()
-                    .into_iter()
-                    .map(|q| {
+            <div class="quoteboard">
+                {move || {
+                    get_quotes
+                        .get()
+                        .into_iter()
+                        .map(|q| {
 
-                        view! {
-                            <button on:click=move |_| {
-                                log!("{}",q.1.as_str());
-                                let audio = web_sys::HtmlAudioElement::new_with_src(
-                                        format!("public/audio/{}", q.1.as_str()).as_str(),
-                                    )
-                                    .expect("audio introuvable");
-                                let _ = audio.play().expect("impossible de jouer l'audio");
-                            }>
+                            view! {
+                                <button on:click=move |_| {
+                                    log!("{}",q.1.as_str());
+                                    let audio = web_sys::HtmlAudioElement::new_with_src(
+                                            format!("public/audio/{}", q.1.as_str()).as_str(),
+                                        )
+                                        .expect("audio introuvable");
+                                    let _ = audio.play().expect("impossible de jouer l'audio");
+                                }>
 
-                                <a href="#">{q.0}</a>
+                                    <a href="#">{q.0}</a>
 
-                            </button>
-                        }
-                    })
-                    .collect_view()
-            }}
-        </div>
+                                </button>
+                            }
+                        })
+                        .collect_view()
+                }}
+            </div>
     }
 }
 
