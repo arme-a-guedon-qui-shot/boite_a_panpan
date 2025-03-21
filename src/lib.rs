@@ -1,14 +1,16 @@
-use getrandom::getrandom;
+use getrandom::fill;
 use leptos::prelude::ElementChild;
+
 use leptos::prelude::Update;
 use leptos::*;
 
 use leptos_meta::provide_meta_context;
-use logging::log;
+
 use prelude::{signal, ClassAttribute, CollectView, Get, OnAttribute};
+
 fn random_u32(a: u32, b: u32) -> u32 {
     let mut buf = [0u8; 4];
-    getrandom(&mut buf).unwrap();
+    fill(&mut buf).unwrap();
     let random_u32 = u32::from_be_bytes(buf);
     (random_u32 % (b - a + 1)) + a
 }
@@ -143,45 +145,66 @@ pub fn Quotes() -> impl IntoView {
     shuffle_vec(&mut v);
     let (get_quotes, set_quotes) = signal(v);
     let (get_screamer, set_screamer) = signal(false);
+
     view! {
-        <div class="quoteboard">
+        <main>
+            <div class="quoteboard">
+                {move || {
+                    get_quotes
+                        .get()
+                        .into_iter()
+                        .map(|q| {
+
+                            view! {
+                                <button on:click=move |_| {
+                                    let path = format!("public/{}", q.1.as_str());
+                                    if path.ends_with(".mp3") {
+                                        let audio = web_sys::HtmlAudioElement::new_with_src(
+                                                path.as_str(),
+                                            )
+                                            .expect("audio introuvable");
+                                        let _ = audio.play().expect("impossible de jouer l'audio");
+                                    } else if path.ends_with(".mp4") {
+                                        set_screamer
+                                            .update(|old| {
+                                                *old = true;
+                                            })
+                                    }
+                                }>
+
+                                    <a href="#">{q.0}</a>
+
+                                </button>
+                            }
+                        })
+                        .collect_view()
+                }}
+
+            </div>
             {move || {
-                get_quotes
-                    .get()
-                    .into_iter()
-                    .map(|q| {
+                if get_screamer.get() {
+                    Some(
 
                         view! {
-                            <button on:click=move |_| {
-                                let path = format!("public/{}", q.1.as_str());
-                                if path.ends_with(".mp3") {
-                                    let audio = web_sys::HtmlAudioElement::new_with_src(
-                                            path.as_str(),
-                                        )
-                                        .expect("audio introuvable");
-                                    let _ = audio.play().expect("impossible de jouer l'audio");
-                                } else if path.ends_with(".mp4") {
+                            <video
+                                class="fullScreenVideo"
+                                autoplay=true
+                                on:ended=move |_| {
                                     set_screamer
                                         .update(|old| {
                                             *old = false;
                                         })
                                 }
-                            }>
-
-                                <a href="#">{q.0}</a>
-
-                            </button>
-                        }
-                    })
-                    .collect_view()
-            }}
-            {move || {
-                if get_screamer.get() {
-                    view! { <video ref="public/video/om.mp4" /> }
+                            >
+                                <source src="public/video/om.mp4" type="video/mp4" />
+                            </video>
+                        },
+                    )
+                } else {
+                    None
                 }
             }}
-
-        </div>
+        </main>
     }
 }
 

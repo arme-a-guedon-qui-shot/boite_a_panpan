@@ -1,4 +1,4 @@
-.quoteboard { 
+.quoteboard {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -28,4 +28,13 @@ button:hover {
 button:active {
   transform: translateY(1px);
   box-shadow: 0 3px 6px rgba(50, 50, 93, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.fullScreenVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  z-index: 1000;
 }
