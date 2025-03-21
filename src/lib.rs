@@ -144,46 +144,44 @@ pub fn Quotes() -> impl IntoView {
     let (get_quotes, set_quotes) = signal(v);
     let (get_screamer, set_screamer) = signal(false);
     view! {
-            <div class="quoteboard">
-                {move || {
-                    get_quotes
-                        .get()
-                        .into_iter()
-                        .map(|q| {
+        <div class="quoteboard">
+            {move || {
+                get_quotes
+                    .get()
+                    .into_iter()
+                    .map(|q| {
 
-                            view! {
-                                <button on:click=move |_| {
-                                    let path = format!("public/{}", q.1.as_str());
-                                        if path.ends_with(".mp3"){
-                                            let audio = web_sys::HtmlAudioElement::new_with_src(
-                                                path.as_str(),
-                                            )
-                                            .expect("audio introuvable");
-                                        let _ = audio.play().expect("impossible de jouer l'audio");
-                                        }else if path.ends_with(".mp4"){
-                                            set_screamer.update(|old|{
-                                                *old=false;
-                                            })
-                                        }
+                        view! {
+                            <button on:click=move |_| {
+                                let path = format!("public/{}", q.1.as_str());
+                                if path.ends_with(".mp3") {
+                                    let audio = web_sys::HtmlAudioElement::new_with_src(
+                                            path.as_str(),
+                                        )
+                                        .expect("audio introuvable");
+                                    let _ = audio.play().expect("impossible de jouer l'audio");
+                                } else if path.ends_with(".mp4") {
+                                    set_screamer
+                                        .update(|old| {
+                                            *old = false;
+                                        })
+                                }
+                            }>
 
+                                <a href="#">{q.0}</a>
 
+                            </button>
+                        }
+                    })
+                    .collect_view()
+            }}
+            {move || {
+                if get_screamer.get() {
+                    view! { <video ref="public/video/om.mp4" /> }
+                }
+            }}
 
-                                }>
-
-                                    <a href="#">{q.0}</a>
-
-                                </button>
-                            }
-                        })
-                        .collect_view()
-                }}
-                {move ||{
-                    if get_screamer.get(){
-                        <video r#ref="public/video/om.mp4"></video>
-                    }
-                }}
-
-            </div>
+        </div>
     }
 }
 
