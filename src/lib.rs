@@ -142,6 +142,12 @@ pub fn Quotes() -> impl IntoView {
         ("bonus".to_string(), "audio/ol.mp3".to_string()),
         ("<3".to_string(), "audio/om.mp4".to_string()),
     ];
+    v = [&v[..], &v[..]].concat();
+    v = [&v[..], &v[..]].concat();
+    v = [&v[..], &v[..]].concat();
+    v = [&v[..], &v[..]].concat();
+    v = [&v[..], &v[..]].concat();
+    v = [&v[..], &v[..]].concat();
     shuffle_vec(&mut v);
     let (get_quotes, set_quotes) = signal(v);
     let (get_screamer, set_screamer) = signal(false);
