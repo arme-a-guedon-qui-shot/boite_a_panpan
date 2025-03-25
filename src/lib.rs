@@ -116,7 +116,10 @@ pub fn Quotes() -> impl IntoView {
             "Le sang de leurs morts il mangera".to_string(),
             "audio/24-lesangdeleurmort.mp3".to_string(),
         ),
-        ("Ta femme...".to_string(), "25-tafemme.mp3".to_string()),
+        (
+            "Ta femme...".to_string(),
+            "audio/25-tafemme.mp3".to_string(),
+        ),
         (
             "Ferme ta gueule ©".to_string(),
             "audio/26-fermetagueule.mp3".to_string(),
