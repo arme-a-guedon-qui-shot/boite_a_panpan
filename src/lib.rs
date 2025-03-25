@@ -87,7 +87,10 @@ pub fn Quotes() -> impl IntoView {
             "J'ai jamais pris une volée par un homme".to_string(),
             "audio/16-jaijamaispris.mp3".to_string(),
         ),
-        ("J'en veux Joe !".to_string(), "17-jenveux.mp3".to_string()),
+        (
+            "J'en veux Joe !".to_string(),
+            "audio/17-jenveux.mp3".to_string(),
+        ),
         (
             "De toutes façons on est en 2012...".to_string(),
             "audio/18-2012.mp3".to_string(),
@@ -124,7 +127,10 @@ pub fn Quotes() -> impl IntoView {
             "Ferme ta gueule ©".to_string(),
             "audio/26-fermetagueule.mp3".to_string(),
         ),
-        ("J'ai pas peur moi".to_string(), "27-balles.mp3".to_string()),
+        (
+            "J'ai pas peur moi".to_string(),
+            "audio/27-balles.mp3".to_string(),
+        ),
         (
             "C'est pas deux coups de poings, une tapette...".to_string(),
             "audio/28-2coupsdepoing.mp3".to_string(),
@@ -137,7 +143,7 @@ pub fn Quotes() -> impl IntoView {
             "C'est la castagne".to_string(),
             "audio/30-castagne.mp3".to_string(),
         ),
-        ("?!?!".to_string(), "31-cri.mp3".to_string()),
+        ("?!?!".to_string(), "audio/31-cri.mp3".to_string()),
         (
             "Je fais 75 kilos je fais".to_string(),
             "audio/32-75kilos.mp3".to_string(),
